@@ -1426,7 +1426,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = __webpack_require__(186);
 const github = __importStar(__webpack_require__(438));
 function run() {
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core_1.getInput("token");
@@ -1441,7 +1441,7 @@ function run() {
             const event = require(eventPath);
             const commit_sha = (((_b = (_a = event === null || event === void 0 ? void 0 : event.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha) ||
                 process.env.GITHUB_SHA);
-            const ref = ((_d = (_c = event === null || event === void 0 ? void 0 : event.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.ref).replace("ref:", "heads/");
+            const ref = (_c = process.env.GITHUB_REF) === null || _c === void 0 ? void 0 : _c.split("/").slice(2).join("/");
             const full_repository = process.env.GITHUB_REPOSITORY;
             const [owner, repo] = full_repository.split("/");
             core_1.info(`getCommit with ${commit_sha}`);
