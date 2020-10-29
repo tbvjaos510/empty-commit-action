@@ -8,7 +8,8 @@
       "project": "./tsconfig.json"
     },
     "rules": {
-      "camelcase": "off"
+      "camelcase": "off",
+      "import/no-namespace": "off"
     },
     "overrides": [
       {

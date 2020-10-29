@@ -1,5 +1,5 @@
 import { getInput, setOutput, setFailed } from "@actions/core";
-import github from "@actions/github";
+import * as github from "@actions/github";
 
 async function run(): Promise<void> {
 	try {
