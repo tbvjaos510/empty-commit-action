@@ -1,6 +1,5 @@
 name: 'test'
-on: # rebuild any PRs and main branch changes
-  pull_request:
+on:
   issue_comment:
 jobs:
   test: # make sure the action works on a clean machine without building
