@@ -1,11 +1,20 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Empty Commit Action'
+description: 'Create Empty Commit'
+author: 'tbvjaos510'
 inputs:
-  milliseconds: # change this
+  token: # change this
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Github Token'
+  message:
+    required: true
+    description: 'Github Commit Message'
+    default: 'Empty Commit'
+  email:
+    required: true
+    description: 'Author Email'
+  name:
+    required: true
+    description: 'Author Name'
 runs:
   using: 'node12'
   main: 'dist/index.js'

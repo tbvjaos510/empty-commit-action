@@ -1,19 +1,46 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import { getInput, setOutput, setFailed } from "@actions/core";
+import github from "@actions/github";
 
 async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+	try {
+		const token = getInput("token");
+		const message = getInput("message");
+		const email = getInput("email");
+		const name = getInput("name");
+		const octokit = github.getOctokit(token);
+		const eventPath = process.env.GITHUB_EVENT_PATH;
+		if (!eventPath) {
+			throw new Error("EventPath not reserved");
+		}
+		const event = require(eventPath);
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+		const commit_sha = (event?.pull_request?.head?.sha ||
+			process.env.GITHUB_SHA) as string;
+		const ref = event?.pull_request?.head?.ref as string;
+		const full_repository = process.env.GITHUB_REPOSITORY as string;
+		const [owner, repo] = full_repository.split("/");
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    core.setFailed(error.message)
-  }
+		const {
+			data: { tree },
+		} = await octokit.git.getCommit({ repo, owner, commit_sha });
+
+		const {
+			data: { sha: newSha },
+		} = await octokit.git.createCommit({
+			repo,
+			owner,
+			parents: [commit_sha],
+			tree: tree.sha,
+			message,
+			author: { email, name },
+		});
+
+		await octokit.git.updateRef({ repo, owner, ref, sha: newSha });
+
+		setOutput("time", new Date().toTimeString());
+	} catch (error) {
+		setFailed(error.message);
+	}
 }
 
-run()
+run();
