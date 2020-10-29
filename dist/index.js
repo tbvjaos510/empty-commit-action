@@ -1441,7 +1441,7 @@ function run() {
             const event = require(eventPath);
             const commit_sha = (((_b = (_a = event === null || event === void 0 ? void 0 : event.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha) ||
                 process.env.GITHUB_SHA);
-            const ref = ((_d = (_c = event === null || event === void 0 ? void 0 : event.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.ref).replace("refs:", "heads/");
+            const ref = ((_d = (_c = event === null || event === void 0 ? void 0 : event.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.ref).replace("ref:", "heads/");
             const full_repository = process.env.GITHUB_REPOSITORY;
             const [owner, repo] = full_repository.split("/");
             core_1.info(`getCommit with ${commit_sha}`);
