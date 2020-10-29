@@ -1,4 +1,4 @@
-import { getInput, setOutput, setFailed } from "@actions/core";
+import { getInput, setOutput, setFailed, info } from "@actions/core";
 import * as github from "@actions/github";
 
 async function run(): Promise<void> {
@@ -20,10 +20,12 @@ async function run(): Promise<void> {
 		const full_repository = process.env.GITHUB_REPOSITORY as string;
 		const [owner, repo] = full_repository.split("/");
 
+		info(`getCommit with ${commit_sha}`);
 		const {
 			data: { tree },
 		} = await octokit.git.getCommit({ repo, owner, commit_sha });
 
+		info(`createCommit with parents:${commit_sha}, tree: ${tree.sha}`);
 		const {
 			data: { sha: newSha },
 		} = await octokit.git.createCommit({
@@ -35,9 +37,9 @@ async function run(): Promise<void> {
 			author: { email, name },
 		});
 
+		info(`updateRef with ref:${ref}, sha: ${newSha}`);
 		await octokit.git.updateRef({ repo, owner, ref, sha: newSha });
-
-		setOutput("time", new Date().toTimeString());
+		setOutput("commit", newSha);
 	} catch (error) {
 		setFailed(error.message);
 	}

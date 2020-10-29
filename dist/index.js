@@ -1444,7 +1444,9 @@ function run() {
             const ref = (_d = (_c = event === null || event === void 0 ? void 0 : event.pull_request) === null || _c === void 0 ? void 0 : _c.head) === null || _d === void 0 ? void 0 : _d.ref;
             const full_repository = process.env.GITHUB_REPOSITORY;
             const [owner, repo] = full_repository.split("/");
+            core_1.info(`getCommit with ${commit_sha}`);
             const { data: { tree }, } = yield octokit.git.getCommit({ repo, owner, commit_sha });
+            core_1.info(`createCommit with parents:${commit_sha}, tree: ${tree.sha}`);
             const { data: { sha: newSha }, } = yield octokit.git.createCommit({
                 repo,
                 owner,
@@ -1453,8 +1455,9 @@ function run() {
                 message,
                 author: { email, name },
             });
+            core_1.info(`updateRef with ref:${ref}, sha: ${newSha}`);
             yield octokit.git.updateRef({ repo, owner, ref, sha: newSha });
-            core_1.setOutput("time", new Date().toTimeString());
+            core_1.setOutput("commit", newSha);
         }
         catch (error) {
             core_1.setFailed(error.message);
