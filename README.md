@@ -8,7 +8,7 @@
 on: # rebuild any PRs and main branch changes
   pull_request:
 jobs:
-    uses: tbvjaos510/empty-commit-aciton@latest
+    uses: tbvjaos510/empty-commit-action@0.0.2
     with:
         token: ${{ secrets.GITHUB_TOKEN }}
         email: helloworld@naver.com

@@ -14,14 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/tbvjaos510/empty-commit-action.git"
   },
   "keywords": [
-    "actions",
-    "node",
-    "setup"
+    "empty-commit",
+    "github-action"
   ],
-  "author": "",
+  "author": "tbvajos510",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
