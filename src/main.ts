@@ -16,10 +16,7 @@ async function run(): Promise<void> {
 
 		const commit_sha = (event?.pull_request?.head?.sha ||
 			process.env.GITHUB_SHA) as string;
-		const ref = (event?.pull_request?.head?.ref as string).replace(
-			"ref:",
-			"heads/"
-		);
+		const ref = (event?.pull_request?.head?.ref as string).substr(4)
 		const full_repository = process.env.GITHUB_REPOSITORY as string;
 		const [owner, repo] = full_repository.split("/");
 
