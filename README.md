@@ -4,8 +4,10 @@
 
 > 쓸모없어 보이지만, 쓰일 일이 있습니다.. ㅎㅎ
 
+## Examples
+
 ```yaml
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
 jobs:
     uses: tbvjaos510/empty-commit-action@0.0.2
